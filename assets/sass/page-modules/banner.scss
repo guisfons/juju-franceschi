@@ -1,0 +1,130 @@
+@import '../abstracts/variables';
+@import '../abstracts/utilities';
+
+.banner {
+    background-color: #141517;
+    min-height: 100dvh;
+    // position: relative;
+    // z-index: 9999;
+
+    display: flex;
+    pointer-events: none;
+    cursor: none;
+
+    &__dinamic {
+        max-width: 117.4rem;
+        width: 70%;
+        margin: 12.5rem auto 0;
+
+        @include max (900) {
+            height: initial;
+            width: 90%;
+        }
+
+        height: 70dvh;
+        position: relative;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    &__frase {
+        font-size: 4.8rem;
+        font-weight: 300;
+        line-height: 7.2rem;
+        color: #fff;
+
+        display: block;
+        max-width: 79rem;
+        width: 100%;
+        
+        z-index: 2;
+
+        @include max (900) {
+            font-size: 3rem;
+            line-height: 4.2rem;
+        }
+
+        strong {
+            font-weight: 600;
+        }
+    }
+
+    &__logo {
+        max-width: 35rem;
+        width: 100%;
+        z-index: 2;
+
+        @include max (900) {
+            max-width: 15rem;
+        }
+
+        img {
+            width: 100%;
+            object-fit: contain;
+        }
+    }
+
+    &__logos {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 2rem;
+        max-width: 36.6rem;
+        width: 100%;
+        z-index: 5;
+
+        @include max (900) {
+            max-width: 100%;
+            justify-content: center;
+        }
+    }
+
+    &__video {
+        position: absolute;
+        right: -20%;
+        max-width: 71.9rem;
+        width: 100%;
+        height: 90dvh;
+        overflow: hidden;
+    
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(20,21,23,1) 100%);
+            z-index: 1;
+        }
+    
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+        }
+    }
+
+    &__cursor {
+        width: 2rem;
+        height: 2rem;
+        border: .3rem solid #C07858;
+        border-radius: 50%;
+        position: absolute;
+        z-index: 999999;
+        pointer-events: none;
+        transition: width .2s ease, height .2s ease, border-width .2s ease, -webkit-transform .15s ease-out;
+        transition: transform .15s ease-out, width .2s ease, height .2s ease, border-width .2s ease;
+        transition: transform .15s ease-out, width .2s ease, height .2s ease, border-width .2s ease, -webkit-transform .15s ease-out;
+        transform: translate(-50%, -50%);
+
+        img, svg {
+            transition: all .3s ease-in-out;
+        }
+    }
+}

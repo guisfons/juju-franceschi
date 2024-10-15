@@ -1,0 +1,67 @@
+@import '../abstracts/utilities';
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+::-webkit-scrollbar {
+    width: .8rem;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #C07858;
+    border-radius: 1rem;
+}
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+
+    @include max (1500) {
+        font-size: 60%;
+    }
+}
+body {
+    box-sizing: border-box;
+    position: relative;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+    // background-color: #141517;
+    color: #3F4044;
+    background-color: #FBFBF8;
+    overflow-x: hidden;
+    // cursor: none;
+}
+main {
+    position: relative;
+    overflow: hidden;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+h1, h2, h3 {
+    font-family: $avigea;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+    cursor: none;
+}
+button {
+    cursor: none;
+}
+.wrapper {
+    margin: 0 auto;
+    width: 80%;
+    max-width: 1350px;
+}

@@ -1,0 +1,202 @@
+.aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    // z-index: 99999999;
+    
+    z-index: 9;
+
+    max-width: 10rem;
+    width: 100%;
+    height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #141517;
+    border-right: .1rem solid #747474;
+
+    transition: transform .3s ease-in-out;
+
+    @include max (900) {
+        display: none;
+    }
+
+    &:has(&__button--active) &__menu {
+        left: 11.3rem;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &--hide {
+        transform: translateX(-20rem);
+    }
+
+    &__logo {
+        width: 3.716rem;
+        height: 4.3rem;
+        display: flex;
+        font-size: 0;
+
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+    }
+
+    &__button {
+        appearance: none;
+        background: transparent;
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+
+        transition: .3s background-color ease-in-out;
+
+        width: 5.7rem;
+        height: 5.7rem;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20dvh 0 23dvh;
+
+        &:hover {
+            svg .line {
+                stroke: #C07858;
+            }
+        }
+
+        svg {
+            width: 4.35rem;
+            height: auto;
+
+            .line {
+                fill: none;
+                stroke: #fff;
+                stroke-width: 6;
+                transition:
+                    stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                    stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                    stroke 600ms ease-in-out;
+
+                    
+                &1 {
+                    stroke-dasharray: 60 207;
+                    stroke-width: 6;
+                }
+        
+                &2 {
+                    stroke-dasharray: 60 60;
+                    stroke-width: 6;
+                }
+        
+                &3 {
+                    stroke-dasharray: 60 207;
+                    stroke-width: 6;
+                }
+            }
+        }
+
+        &--active {
+            background-color: #000;
+
+            svg {
+                .line {
+                    &1 {
+                        stroke-dasharray: 90 207;
+                        stroke-dashoffset: -134;
+                        stroke-width: 6;
+                    }
+        
+                    &2 {
+                        stroke-dasharray: 1 60;
+                        stroke-dashoffset: -30;
+                        stroke-width: 6;
+                    }
+        
+                    &3 {
+                        stroke-dasharray: 90 207;
+                        stroke-dashoffset: -134;
+                        stroke-width: 6;
+                    }
+                }
+            }
+        }
+    }
+
+    &__social {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2.4rem;
+
+        a {
+            &:hover {
+                path {
+                    fill: #C07858;
+                }
+            }
+
+            path { 
+                transition: .3s fill ease-in-out;
+            }
+        }
+    }
+
+    &__menu {
+        position: fixed;
+        top: 50%;
+        left: -36rem;
+        transform: translateY(-50%);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        max-width: 36rem;
+        width: 100%;
+        max-height: 76.8dvh;
+        height: 100dvh;
+        z-index: 1;
+
+        background-color: #fff;
+        border-radius: 4rem;
+        padding: 5.4rem 4.2rem 6.9rem;
+        color: #000;
+
+        opacity: 0;
+        visibility: hidden;
+        transition: .7s all ease-in-out;
+
+        span {
+            font-family: $avigea_italic;
+            font-size: 1.6rem;
+            line-height: 3rem;
+            margin-bottom: auto;
+        }
+
+        &-items {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        &-item {
+            font-family: $avigea;
+            font-weight: 400;
+            font-size: 3rem;
+            line-height: 3rem;
+            text-transform: uppercase;
+
+            transition: .3s color ease-in-out;
+
+            &:hover {
+                color: #C07858;
+            }
+        }
+    }
+}

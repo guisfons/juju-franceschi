@@ -1,0 +1,27 @@
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hiddenT;
+    background-color: #141517;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: 1s opacity ease-in-out, 1s visibility ease-in-out;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999999999999999;
+
+    svg path {
+        fill: #C07858;
+    }
+
+    &--active {
+        opacity: 1;
+        visibility: visible;
+    }
+}
