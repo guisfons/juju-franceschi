@@ -14,6 +14,8 @@ $(document).ready(function () {
 
     $(window).on('resize', function () {
         wrapperDistance()
+        aside()
+        header()
     })
 
 })
@@ -87,6 +89,8 @@ function checkIfPageLoaded() {
 }
 
 function aside() {
+    if($(window).width() < 901) { return }
+
     const menuButton = $('.aside__button')
 
     menuButton.on('click', function () {
@@ -128,6 +132,8 @@ function aside() {
 }
 
 function header() {
+    if($(window).width() > 900) { return }
+
     const menuButton = $('.header__button')
 
     menuButton.on('click', function () {

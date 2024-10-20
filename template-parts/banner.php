@@ -27,6 +27,6 @@ if ($banner) {
             endif;
             ?>
         </div>
-        <?php get_template_part('template-parts/banner-video'); ?>
     </div>
+    <?php get_template_part('template-parts/banner-video'); ?>
 </section>
