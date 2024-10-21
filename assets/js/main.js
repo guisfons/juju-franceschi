@@ -11,6 +11,7 @@ $(document).ready(function () {
     wrapperDistance()
     horizontalScroll()
     slider()
+    bannerCursor()
 
     $(window).on('resize', function () {
         wrapperDistance()
@@ -173,6 +174,33 @@ function header() {
     })
 }
 
+function bannerCursor() {
+    const $bannerCursor = $('.banner__cursor');
+
+    // Mouse move event to track cursor position
+    $(window).mousemove(function (event) {
+        $bannerCursor.css({
+            left: event.pageX,
+            top: event.pageY,
+            cursor: 'none'
+        });
+    });
+
+    // Variable to store the Y position of the mouse
+    let mouseY = 0;
+
+    $(window).on('mousemove', function (event) {
+        mouseY = event.pageY;  // Store the current Y position of the mouse
+    });
+
+    // Mouse wheel event to maintain the Y position of the mouse while scrolling
+    $(document).on('mousewheel', function () {
+        $bannerCursor.css({
+            top: mouseY  // Keep the Y position constant during scroll
+        });
+    });
+}
+
 function cursor() {
     if (window.matchMedia('(pointer: coarse)').matches) {
         $('.gui-cursor').remove()
@@ -213,7 +241,7 @@ function cursor() {
 
     animateCursor()
 
-    const $elements = $('a, button, .loader, .banner__video')
+    const $elements = $('a, button, .loader')
     $elements.on('mouseenter', function () {
         $('.gui-cursor').css({
             width: '4rem',
