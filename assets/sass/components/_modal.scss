@@ -1,0 +1,63 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: .3s ease-in-out;
+    cursor: default;
+
+    background-color: rgba($color: #000000, $alpha: .7);
+    backdrop-filter: blur(1rem);
+
+    &--active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &__close {
+        position: absolute;
+        top: 2rem;
+        right: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+        border-radius: 50%;
+        overflow: hidden;
+        width: 5rem;
+        height: 5rem;
+
+        cursor: pointer;
+        
+        &::before, &::after {
+            content: '';
+            position: absolute;
+            width: 3rem;
+            height: .1rem;
+            background-color: #000;
+        }
+
+        &::before {
+            rotate: 45deg;
+        }
+
+        &::after {
+            rotate: -45deg;
+        }
+    }
+
+    video {
+        max-height: 90dvh;
+        max-width: 90dvw;
+        border: 0.4rem solid #fff;
+        border-radius: 2rem;
+    }
+}

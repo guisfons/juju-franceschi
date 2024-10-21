@@ -21,7 +21,7 @@ if (have_rows('eventos_&_lives')) :
                         if (!empty($parte)) {
                             $parteLimpa = trim($parte);
                             if (is_numeric($parteLimpa)) {
-                                echo '<span data-number="' . $parteLimpa . '">0 </span>';
+                                echo '<span data-number="' . $parteLimpa . '">'.$parteLimpa - 10 .' </span>';
                             } else {
                                 echo '<span> ' . $parteLimpa . ' </span>';
                             }
