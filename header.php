@@ -40,7 +40,10 @@
 </head>
 <body <?php body_class($post->post_name ?? ''); ?>>
 	<div class="loader loader--active" data-color="<?php echo get_field('cor_do_logo_loader', 'options'); ?>"><svg width="38" height="43" viewBox="0 0 38 43" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.679688 21.84C0.679688 19.2 2.79969 17.04 5.39969 17.04C8.07969 17.04 10.1597 19.2 10.1597 21.84C10.1597 24.12 8.59969 25.96 6.43969 26.48C7.11969 26.76 7.83969 26.92 8.59969 26.92C11.5597 26.92 13.0397 24.36 13.0397 19.96V3.68C13.0397 2.72 12.5197 1.68 11.7597 1.12L11.3597 0.799999V0H21.3197V0.799999L20.9997 1.12C20.1997 1.68 19.6797 2.72 19.6797 3.68V17.92C19.6797 25.6 16.1197 29.4 10.4397 29.4C6.55969 29.4 3.39969 27.64 1.55969 24.64C0.999688 23.84 0.679688 22.88 0.679688 21.84Z" fill="<?php echo get_field('cor_do_logo_loader', 'options'); ?>" /><path d="M25.0397 41.88L25.4397 42.16V43H15.4797V42.16L15.8397 41.88C16.6397 41.28 17.1197 40.28 17.1197 39.32V17.68C17.1197 16.72 16.6397 15.68 15.8397 15.12L15.4797 14.8V14H36.9997L37.8397 20.6H36.9997L36.3997 19.76C34.9997 17.8 32.4797 16.48 30.0797 16.48H23.7597V28.08H28.7597C30.7197 28.08 32.1997 26.8 32.4397 24.84V24.76H33.2797V33.88H32.4397V33.8C32.1997 31.84 30.7197 30.56 28.7597 30.56H23.7597V39.32C23.7597 40.28 24.3197 41.28 25.0397 41.88Z" fill="<?php echo get_field('cor_do_logo_loader', 'options'); ?>" /></svg></div>
-	<!-- <div class="gui-cursor"></div> -->
+	<span class="gui-cursor">
+        <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/img/cursor.webp" alt="Cursor vídeo">
+        <svg width="62" height="71" viewBox="0 0 62 71" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.29492 6.60079V64.8489C2.29492 68.3655 5.68367 70.6034 8.49697 68.877L58.3052 39.0816C60.7348 37.611 60.7348 33.7747 58.3052 32.3041L8.49697 2.50873C5.68367 0.846322 2.29492 3.08417 2.29492 6.60079Z" stroke="white" stroke-width="3" stroke-miterlimit="10"/></svg>
+    </span>
 	<aside class="aside">
 		<a href="/index.html" title="<?php echo get_the_title(); ?>" class="aside__logo">
 			<h1>
@@ -82,7 +85,7 @@
 		</div>
 	</aside>
 	<header class="header">
-		<a href="/index.html" title="<?php echo get_the_title(); ?>" class="header__logo">
+		<a href="<?php echo esc_url(get_home_url()); ?>" title="<?php echo get_the_title(); ?>" class="header__logo">
 			<h1>
 				<?php echo get_the_title(); ?>
 				<img width="355" height="142" src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/img/logo.svg'); ?>" alt="<?php echo get_the_title(); ?>">

@@ -7,10 +7,13 @@ if (have_rows('publicidade')) :
         $imagens = get_sub_field('imagens');
         if ($imagens) {
             echo '<div class="publicidade__galeria">';
-            // foreach ($imagens as $imagem) {
-            //     echo '<figure><img src="' . esc_url($imagem) . '" alt="" /></figure>';
-            // }
-            echo '<figure><img src="'.esc_url(get_template_directory_uri()).'/assets/img/images.webp" alt=""></figure>';
+            foreach ($imagens as $imagem) {
+                if (strpos($imagem, 'mp4') !== false) {
+                    echo '<figure><video loading="lazy"><source src="' . esc_url($imagem) . '" type="video/mp4"></video></figure>';
+                } else {
+                    echo '<figure><img src="' . esc_url($imagem) . '" alt="" /></figure>';
+                }
+            }
             echo '</div>';
         }
 

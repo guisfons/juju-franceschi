@@ -2,17 +2,17 @@ $(document).ready(function () {
     loader()
     aside()
     header()
-    // cursor()
+    cursor()
     boxes()
     fadeIn()
     animateCounters()
     circleSvg()
-    // carousel()
+    cards()
+    carousel()
     wrapperDistance()
     horizontalScroll()
     slider()
     banner()
-    modal()
 
     $(window).on('resize', function () {
         wrapperDistance()
@@ -20,7 +20,54 @@ $(document).ready(function () {
         header()
     })
 
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length) {
+                mutation.addedNodes.forEach(node => {
+                    if ($(node).is('.modal')) {
+                        modalControls()
+                    }
+                })
+            }
+        })
+    })
+
+    observer.observe(document, { childList: true, subtree: true });
+
+    $(document).on('click', function(event) {
+        if ($(event.target).is('video')) {
+            modal($(event.target).find('source').attr('src'))
+        }
+    })
 })
+
+function cards() {
+    const spacing = 3, // 3 seconds per card change
+    cards = gsap.utils.toArray('.eventos-lives__carrosel figure'), // Select all figure elements
+    numVisibleCards = 3, // Number of visible cards at a time
+    cardWidth = document.querySelector('.eventos-lives__carrosel figure').offsetWidth, // Width of each card
+    totalWidth = cardWidth * cards.length, // Total width of all cards combined
+    loop = buildLoop(cards, spacing, numVisibleCards); // Build the automatic loop
+
+    // Play the loop automatically
+    loop.play();
+
+    function buildLoop(items, spacing, visibleCount) {
+        const loopTimeline = gsap.timeline({repeat: -1, paused: true});
+        
+        // Loop animation for sliding through all cards
+        loopTimeline.to('.eventos-lives__carrosel', {
+            x: `-=${cardWidth * visibleCount}`, // Move by width of visible cards
+            duration: spacing * visibleCount, // Total duration to cycle through
+            ease: "none", // Linear easing for continuous scrolling
+            modifiers: {
+                x: gsap.utils.wrap(-totalWidth, 0) // Wrap around for seamless looping
+            }
+        });
+
+        return loopTimeline;
+    }
+}
 
 function wrapperDistance() {
     // let distance = $('.wrapper').offset().left
@@ -180,24 +227,8 @@ function banner() {
     let video
 
     banner.on('click', function () {
-        if (banner.find('.modal').length > 0) { return }
-
         video = banner.find('video source')[0].src
-        banner.append('<div class="modal"><span class="modal__close"></span><video controls><source src="' + video + '"	></video></div>')
-
-        setTimeout(() => {
-            banner.find('.modal').addClass('modal--active')
-        }, 300)
-    })
-
-    const bannerCursor = $('.banner__cursor')
-
-    $(window).mousemove(function (event) {
-        bannerCursor.css({
-            left: event.pageX,
-            top: event.pageY,
-            cursor: 'none'
-        })
+        modal(video)
     })
 }
 
@@ -206,16 +237,24 @@ function cursor() {
         $('.gui-cursor').remove()
         return
     }
-
+    
     const $customCursor = $('.gui-cursor')
-    const $bannerCursor = $('.banner__cursor')
-
+    
     let mouseX = 0, mouseY = 0
     let cursorX = 0, cursorY = 0
 
     $(document).on('mousemove', function (e) {
         mouseX = e.pageX
         mouseY = e.pageY
+
+        const isHoveringVideo = $(e.target).closest('figure, .banner').has('video').length > 0
+        if (isHoveringVideo) {
+            $customCursor.addClass('gui-cursor--active')
+            $('body').css('cursor', 'none')
+        } else {
+            $customCursor.removeClass('gui-cursor--active')
+            $('body').css('cursor', 'auto')
+        }
     })
 
     function animateCursor() {
@@ -225,13 +264,7 @@ function cursor() {
         cursorX += distX * 0.1
         cursorY += distY * 0.1
 
-
         $customCursor.css({
-            left: `${cursorX}px`,
-            top: `${cursorY}px`
-        })
-
-        $bannerCursor.css({
             left: `${cursorX}px`,
             top: `${cursorY}px`
         })
@@ -240,25 +273,24 @@ function cursor() {
     }
 
     animateCursor()
-
-    const $elements = $('a, button, .loader')
-    $elements.on('mouseenter', function () {
-        $('.gui-cursor').css({
-            width: '4rem',
-            height: '4rem',
-            borderWidth: '.7rem'
-        })
-    })
-    $elements.on('mouseleave', function () {
-        $('.gui-cursor').css({
-            width: '2rem',
-            height: '2rem',
-            borderWidth: '.3rem'
-        })
-    })
 }
 
-function modal() {
+function modal(video) {
+    if ($(document).find('.modal').length > 0) { return }
+
+    $('body').append(modalVideo(video))
+}
+
+function modalVideo(video) {
+    let modalBuilt = '<div class="modal"><span class="modal__close"></span><video controls autoplay><source src="' + video + '"></video></div>'
+    return modalBuilt
+}
+
+function modalControls() {
+    setTimeout(() => {
+        $('.modal').addClass('modal--active')
+    }, 300)
+
     $(document).on('click', '.modal__close', function () {
         $(this).parent().remove()
         $('.modal').removeClass('modal--active')
@@ -291,17 +323,23 @@ function boxes() {
 }
 
 function horizontalScroll() {
-    let logo = horizontalLoop('.logos-container figure', { speed: 1, repeat: -1, paddingRight: 0, center: true, });
-    gsap.to(logo, { timeScale: 1, duration: 0.4, ease: "power1.inOut" });
+    const elements = [
+        { selector: '.logos-container figure', timeScale: 1, paddingRight: 0 },
+        { selector: '.eventos-lives__container figure', timeScale: 1, paddingRight: 32 },
+        { selector: '.eventos-lives__testimonials-container blockquote', timeScale: -1, paddingRight: 50 },
+        { selector: '.na-midia__container .na-midia__item', timeScale: -1, paddingRight: 0 }
+    ]
 
-    let lives = horizontalLoop('.eventos-lives__container figure', { speed: 1, repeat: -1, paddingRight: 32, center: true, });
-    gsap.to(lives, { timeScale: 1, duration: 0.4, ease: "power1.inOut" });
+    elements.forEach(({ selector, timeScale, paddingRight }) => {
+        const loop = horizontalLoop($(selector), { speed: 1, repeat: -1, paddingRight, center: true })
+        gsap.to(loop, { timeScale, duration: 0.4, ease: "power1.inOut" })
 
-    let testimonials = horizontalLoop('.eventos-lives__testimonials-container blockquote', { speed: 1, repeat: -1, paddingRight: 50, center: true, });
-    gsap.to(testimonials, { timeScale: -1, duration: 0.4, ease: "power1.inOut" });
-
-    let midia = horizontalLoop('.na-midia__container .na-midia__item', { speed: 1, repeat: -1, paddingRight: 0, center: true, });
-    gsap.to(midia, { timeScale: -1, duration: 0.4, ease: "power1.inOut" });
+        $(selector).parent().data('scroller', loop).on('mouseenter', function () {
+            $(this).data('scroller').pause()
+        }).on('mouseleave', function () {
+            $(this).data('scroller').resume()
+        })
+    })
 }
 
 function horizontalLoop(items, config) {
@@ -359,6 +397,7 @@ function horizontalLoop(items, config) {
         tl.vars.onReverseComplete();
         tl.reverse();
     }
+    $(items[0]).parent().data('scroller', tl);
     return tl;
 }
 
@@ -480,100 +519,32 @@ function circleSvg() {
 }
 
 function carousel() {
-    function initCarousel($container, config) {
-        const $items = $container.find('.eventos-lives__carousel-item')
-        const itemCount = $items.length
-        let currentIndex = 0
-        let autoPlayInterval
+    let cardAmount = $('.eventos-lives__carrosel figure').length
 
-        config = $.extend({
-            visibleItems: 3,
-            autoPlay: true,
-            autoPlayDelay: 3000,
-            secondaryPosition: 'right',
-            overlap: false,
-            overlapRatio: 0.8,
-            mainItemWidth: 0.6
-        }, config)
-
-        function updateCarousel() {
-            const containerWidth = $container.width()
-            const visibleItems = Math.min(config.visibleItems, itemCount)
-            const mainItemWidth = containerWidth * config.mainItemWidth
-            const secondaryItemWidth = (containerWidth - mainItemWidth) / (visibleItems - 1)
-            const mainPosition = config.mainItemPosition || 'center'
-
-            $items.each(function (index) {
-                const offset = (index - currentIndex + itemCount) % itemCount
-                let width, left, top, zIndex, opacity, scale
-
-                if (offset < visibleItems) {
-                    if (offset === 0) {
-                        width = mainItemWidth
-                        left = (mainPosition === 'center') ? (containerWidth - mainItemWidth) / 2 : 0
-                        zIndex = visibleItems + 1
-                        opacity = 1
-                        scale = 1
-                    } else {
-                        width = secondaryItemWidth
-                        left = (mainPosition === 'center')
-                            ? (offset <= visibleItems / 2)
-                                ? (containerWidth - mainItemWidth) / 2 - (visibleItems / 2 - offset + 0.5) * secondaryItemWidth
-                                : (containerWidth + mainItemWidth) / 2 + (offset - visibleItems / 2 - 0.5) * secondaryItemWidth
-                            : mainItemWidth + (offset - 1) * secondaryItemWidth
-
-                        zIndex = visibleItems - offset
-                        opacity = 1 - (offset * 0.2)
-                        scale = 1 - (offset * 0.1)
-                    }
-
-                    top = `${10 + (offset * 5)}%`
-
-                    $(this).css({
-                        width: `${width}px`,
-                        height: '80%',
-                        left: `${left}px`,
-                        top: top,
-                        zIndex: zIndex,
-                        opacity: opacity,
-                        transform: `scale(${scale})`,
-                        transition: 'all 0.5s ease',
-                        display: 'block'
-                    })
-                } else {
-                    $(this).hide()
-                }
-            })
-        }
-
-        function nextItem() {
-            currentIndex = (currentIndex + 1) % itemCount
-            updateCarousel()
-        }
-
-        function startAutoPlay() {
-            stopAutoPlay()
-            if (config.autoPlay) {
-                autoPlayInterval = setInterval(nextItem, config.autoPlayDelay)
-            }
-        }
-
-        function stopAutoPlay() {
-            clearInterval(autoPlayInterval)
-        }
-
-        // Initialize carousel and autoplay
-        updateCarousel()
-        startAutoPlay()
-
-        // Update layout on window resize
-        $(window).on('resize', updateCarousel)
+    if (cardAmount > 3) {
+        $('.eventos-lives__carrosel').slick({
+            infinite: true,
+            slidesToShow: 1,
+            arrows: false,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            centerMode: true,
+            variableWidth: true,
+        })
     }
 
-    initCarousel($('.eventos-lives__carrosel'), {
-        visibleItems: 3,
-        secondaryPosition: 'right',
-        overlap: false,
-        mainItemWidth: 0.4
-    })
+    let publicidadeCardAmount = $('.publicidade__galeria figure').length
+    if (publicidadeCardAmount > 3) {
+        $('.publicidade__galeria').slick({
+            infinite: true,
+            slidesToShow: 1,
+            arrows: false,
+            slidesToScroll: 1,
+            // autoplay: true,
+            // autoplaySpeed: 3000,
+            centerMode: true,
+            variableWidth: true,
+        })
+    }
 }

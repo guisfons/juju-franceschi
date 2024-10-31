@@ -50,16 +50,26 @@ if (have_rows('eventos_&_lives')) :
         echo '</div>';
 
         $imagem_destaque = get_sub_field('imagem_destaque');
-        if ($imagem_destaque) {
+        $video_destaque = get_sub_field('video_destaque');
+        if ($imagem_destaque && !$video_destaque) {
             echo '<figure><img src="' . esc_url($imagem_destaque['url']) . '" alt="' . esc_attr($imagem_destaque['alt']) . '" /></figure>';
+        } elseif($video_destaque) {
+            echo '<figure><video muted loading="lazy" poster="' . esc_url($imagem_destaque['url']) . '">
+                <source src="' . esc_url($video_destaque) . '" type="video/mp4">
+              </video></figure>';
         }
+
         echo '</div>';
 
         $videos = get_sub_field('videos');
         if ($videos) {
             echo '<div class="eventos-lives__lives"><div class="eventos-lives__container">';
             foreach ($videos as $video) {
-                echo '<figure><img src="' . esc_url($video['url']) . '" alt="" /></figure>';
+                if (strpos($video['url'], 'mp4') !== false) {
+                    echo '<figure><video loading="lazy"><source src="' . esc_url($video['url']) . '" type="video/mp4"></video></figure>';
+                } else {
+                    echo '<figure><img src="' . esc_url($video['url']) . '" alt="" /></figure>';
+                }
             }
             echo '</div></div>';
         }
@@ -86,7 +96,11 @@ if (have_rows('eventos_&_lives')) :
         if ($imagens_carrosel) {
             echo '<div class="eventos-lives__carrosel">';
             foreach ($imagens_carrosel as $imagem) {
-                echo '<figure><img src="' . esc_url($imagem) . '" alt="" /></figure>';
+                if (strpos($imagem, 'mp4') !== false) {
+                    echo '<figure><video loading="lazy"><source src="' . esc_url($imagem) . '" type="video/mp4"></video></figure>';
+                } else {
+                    echo '<figure><img src="' . esc_url($imagem) . '" alt="" /></figure>';
+                }
             }
             echo '</div>';
         }

@@ -136,7 +136,6 @@ if( function_exists('acf_add_options_page') ) {
         'icon_url'   => 'dashicons-excerpt-view',
         'position'   => 3
 	));
-
 }
 
 

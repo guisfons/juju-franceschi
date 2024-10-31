@@ -1,15 +1,36 @@
 .gui-cursor {
-    width: 2rem;
-    height: 2rem;
-    border: .3rem solid #C07858;
-    background-color: transparent;
-    border-radius: 50%;
     position: absolute;
-    z-index: 9999;
+    z-index: 6;
     pointer-events: none;
-    transition: width .2s ease, height .2s ease, border-width .2s ease, -webkit-transform .15s ease-out;
-    transition: transform .15s ease-out, width .2s ease, height .2s ease, border-width .2s ease;
-    transition: transform .15s ease-out, width .2s ease, height .2s ease, border-width .2s ease, -webkit-transform .15s ease-out;
+
+    transition: transform .15s ease-out, width .2s ease, height .2s ease, border-width .2s ease, scale .15s ease-in-out;
     transform: translate(-50%, -50%);
-    // box-shadow: 0px 0px 36px 0px rgba(0, 0, 0, .56);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 16rem;
+    height: 16rem;
+    aspect-ratio: 1;
+    scale: 0;
+
+    svg {
+        position: absolute;
+        top: 50%;
+        left: 55%;
+        transform: translate(-50%, -50%);
+    }
+
+    img {
+        animation: rotate 10s linear infinite;
+    }
+
+    img, svg {
+        transition: all .3s ease-in-out;
+    }
+
+    &--active {
+        scale: 1;
+    }
 }
