@@ -279,7 +279,7 @@
         padding: 0 4rem;
 
         &::before {
-            content: '';
+            // content: '';
             width: 100vw;
             height: 30vh;
             position: absolute;
@@ -289,8 +289,7 @@
             z-index: 1;
         }
 
-        figure,
-        video {
+        figure {
             min-width: 28rem;
             width: 28rem;
             height: auto;
@@ -300,6 +299,12 @@
             position: relative;
             border-radius: 1rem;
 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+
             &:has(video) {
                 height: fit-content;
 
@@ -308,11 +313,68 @@
                 }
             }
 
+            &:has(a) {
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    opacity: 0;
+                    visibility: hidden;
+                    background-color: rgba($color: #000000, $alpha: .3);
+                    transition: .3s ease-in-out;
+                }
+
+                a, span {
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: .3s ease-in-out;
+
+                    max-width: 100%;
+                    font-size: 2.4rem;
+                    font-weight: 600;
+                    font-style: italic;
+                    color: #fff;
+
+                    position: relative;
+                    z-index: 2;
+                    cursor: pointer;
+
+                    text-align: center;
+
+                    opacity: 0;
+                    visibility: hidden;
+                }
+
+                &:hover {
+                    &::after, a, span {
+                        opacity: 1;
+                        visibility: visible;
+                    }
+                }
+            }
+
             img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+
+                position: absolute;
+                top: 0;
+                left: 0;
             }
+        }
+
+        video {
+            min-width: 28rem;
+            width: 28rem;
+            height: auto;
+            aspect-ratio: 28/42;
+            position: absolute;
+            border-radius: 1rem;
+            object-fit: cover;
         }
     }
 
@@ -429,6 +491,9 @@
 
                 video {
                     object-fit: cover;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
                 }
             }
 
@@ -436,7 +501,12 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+
+                position: absolute;
+                top: 0;
+                left: 0;
             }
+
             &.slick-current {
                 z-index: 2;
 
@@ -467,12 +537,77 @@
             object-fit: cover;
 
             transition: max-width .5s ease-in-out, z-index .5s ease-in-out, margin-left .5s ease-in-out, margin-right .5s ease-in-out;
+
+            &:has(video) {
+                height: fit-content;
+
+                video {
+                    object-fit: cover;
+                }
+            }
+
+            &:has(a) {
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    opacity: 0;
+                    visibility: hidden;
+                    background-color: rgba($color: #000000, $alpha: .3);
+                    transition: .3s ease-in-out;
+                }
+
+                a, span {
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: .3s ease-in-out;
+
+                    max-width: 100%;
+                    font-size: 2.4rem;
+                    font-weight: 600;
+                    font-style: italic;
+                    color: #fff;
+
+                    position: relative;
+                    z-index: 2;
+                    cursor: pointer;
+
+                    text-align: center;
+
+                    opacity: 0;
+                    visibility: hidden;
+                }
+
+                &:hover {
+                    &::after, a, span {
+                        opacity: 1;
+                        visibility: visible;
+                    }
+                }
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
         }
 
         .slick {
             &-slide {
                 display: flex !important;
                 align-self: center;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
             }
             
             &-list, &-track {
@@ -926,6 +1061,9 @@
 
                 video {
                     object-fit: cover;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
                 }
             }
 
@@ -933,6 +1071,10 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+
+                position: absolute;
+                top: 0;
+                left: 0;
             }
 
             &.slick-current {
@@ -975,12 +1117,77 @@
             object-fit: cover;
 
             transition: max-width .5s ease-in-out, z-index .5s ease-in-out, margin-left .5s ease-in-out, margin-right .5s ease-in-out;
+
+            &:has(video) {
+                height: fit-content;
+
+                video {
+                    object-fit: cover;
+                }
+            }
+
+            &:has(a) {
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    opacity: 0;
+                    visibility: hidden;
+                    background-color: rgba($color: #000000, $alpha: .3);
+                    transition: .3s ease-in-out;
+                }
+
+                a, span {
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: .3s ease-in-out;
+
+                    max-width: 100%;
+                    font-size: 2.4rem;
+                    font-weight: 600;
+                    font-style: italic;
+                    color: #fff;
+
+                    position: relative;
+                    z-index: 2;
+                    cursor: pointer;
+
+                    text-align: center;
+
+                    opacity: 0;
+                    visibility: hidden;
+                }
+
+                &:hover {
+                    &::after, a, span {
+                        opacity: 1;
+                        visibility: visible;
+                    }
+                }
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
         }
 
         .slick {
             &-slide {
                 display: flex !important;
                 align-self: center;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
             }
             
             &-list, &-track {

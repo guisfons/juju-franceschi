@@ -2,16 +2,19 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    gap: 2rem;
 
     white-space: nowrap;
     position: relative;
 
     figure {
-        min-width: 15rem;
+        min-width: fit-content;
+        max-width: 15rem;
         height: 3.3rem;
         display: flex;
         align-items: center;
         justify-content: center;
+
         filter: grayscale(100%);
         will-change: transform;
         transition: filter .2s ease-in-out;        

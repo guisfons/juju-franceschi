@@ -38,6 +38,10 @@ $(document).ready(function () {
         if ($(event.target).is('video')) {
             modal($(event.target).find('source').attr('src'))
         }
+
+        if ($(event.target).is('span:not(.modal__close)') && $(event.target).parent().has('video')) {
+            modal($(event.target).parent().find('source').attr('src'))
+        }
     })
 })
 
@@ -247,7 +251,7 @@ function cursor() {
         mouseX = e.pageX
         mouseY = e.pageY
 
-        const isHoveringVideo = $(e.target).closest('figure, .banner').has('video').length > 0
+        const isHoveringVideo = $(e.target).closest('figure:not(:has(a)), .banner').has('video').length > 0
         if (isHoveringVideo) {
             $customCursor.addClass('gui-cursor--active')
             $('body').css('cursor', 'none')
@@ -496,13 +500,13 @@ function circleSvg() {
     })
 
     $('.publicidade__marca svg rect').each(function () {
-        var $this = $(this)
-        var pathLength = this.getTotalLength()
+        var $this = $(this)        
+        // var pathLength = this.getTotalLength()
 
-        $this.css({
-            strokeDasharray: pathLength,
-            strokeDashoffset: pathLength
-        })
+        // $this.css({
+        //     strokeDasharray: pathLength,
+        //     strokeDashoffset: pathLength
+        // })
 
         gsap.to(this, {
             strokeDashoffset: 0,

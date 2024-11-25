@@ -8,32 +8,32 @@ if (have_rows('eventos_&_lives')) :
             echo '<h2>' . esc_html($titulo) . '</h2>';
         }
 
-        if (have_rows('dados')) :
-            while (have_rows('dados')) : the_row();
-                $dado = get_sub_field('dado');
-                $descricao = get_sub_field('descricao');
+        // if (have_rows('dados')) :
+        //     while (have_rows('dados')) : the_row();
+        //         $dado = get_sub_field('dado');
+        //         $descricao = get_sub_field('descricao');
         
-                if (strpos($dado, 'anos') !== false || strpos($dado, '+') !== false) {
-                    $partes = preg_split('/\s*(anos|\+)\s*/', $dado, -1, PREG_SPLIT_DELIM_CAPTURE);
+        //         if (strpos($dado, 'anos') !== false || strpos($dado, '+') !== false) {
+        //             $partes = preg_split('/\s*(anos|\+)\s*/', $dado, -1, PREG_SPLIT_DELIM_CAPTURE);
         
-                    echo '<article>';
-                    foreach ($partes as $parte) {
-                        if (!empty($parte)) {
-                            $parteLimpa = trim($parte);
-                            if (is_numeric($parteLimpa)) {
-                                echo '<span data-number="' . $parteLimpa . '">'.$parteLimpa - 10 .' </span>';
-                            } else {
-                                echo '<span> ' . $parteLimpa . ' </span>';
-                            }
-                        }
-                    }
-                    echo '<p>' . $descricao . '</p>';
-                    echo '</article>';
-                } else {
-                    echo '<article><span>' . $dado . '</span><p>' . $descricao . '</p></article>';
-                }
-            endwhile;
-        endif;
+        //             echo '<article>';
+        //             foreach ($partes as $parte) {
+        //                 if (!empty($parte)) {
+        //                     $parteLimpa = trim($parte);
+        //                     if (is_numeric($parteLimpa)) {
+        //                         echo '<span data-number="' . $parteLimpa . '">'.$parteLimpa - 10 .' </span>';
+        //                     } else {
+        //                         echo '<span> ' . $parteLimpa . ' </span>';
+        //                     }
+        //                 }
+        //             }
+        //             echo '<p>' . $descricao . '</p>';
+        //             echo '</article>';
+        //         } else {
+        //             echo '<article><span>' . $dado . '</span><p>' . $descricao . '</p></article>';
+        //         }
+        //     endwhile;
+        // endif;
         echo '</div>';
 
         echo '<div class="eventos-lives__texto-imagem">
@@ -62,17 +62,34 @@ if (have_rows('eventos_&_lives')) :
         echo '</div>';
 
         $videos = get_sub_field('videos');
-        if ($videos) {
+        if( have_rows('videos') ):
             echo '<div class="eventos-lives__lives"><div class="eventos-lives__container">';
-            foreach ($videos as $video) {
-                if (strpos($video['url'], 'mp4') !== false) {
-                    echo '<figure><video loading="lazy"><source src="' . esc_url($video['url']) . '" type="video/mp4"></video></figure>';
-                } else {
-                    echo '<figure><img src="' . esc_url($video['url']) . '" alt="" /></figure>';
+            while( have_rows('videos') ) : the_row();
+                $poster_video = get_sub_field('poster_video');
+                $link_do_post = get_sub_field('link_do_post');
+                $video = get_sub_field('video');
+                if($link_do_post) {
+                    $link_do_post = '<a href="' . esc_url($link_do_post) . '" target="_blank">confira o post</a>';
                 }
-            }
+
+                if(!empty($video)) {
+                    if (strpos($video['url'], 'mp4') !== false) {
+                        echo
+                        '<figure><video loading="lazy" poster="' . esc_url($poster_video) . '">
+                            <source src="' . esc_url($video['url']) . '" type="video/mp4"></video>'
+                            .$link_do_post.'
+                            <span>ver vídeo</span>
+                        </figure>';
+                    }
+                }
+
+                else {
+                    echo '<figure><img src="' . esc_url($poster_video) . '" alt="" />'.$link_do_post.'</figure>';
+                }
+
+            endwhile;
             echo '</div></div>';
-        }
+        endif;
 
         echo '<div class="wrapper-full eventos-lives__especialista">';
         $imagem_destaque_2 = get_sub_field('imagem_destaque_2');
@@ -96,10 +113,20 @@ if (have_rows('eventos_&_lives')) :
         if ($imagens_carrosel) {
             echo '<div class="eventos-lives__carrosel">';
             foreach ($imagens_carrosel as $imagem) {
-                if (strpos($imagem, 'mp4') !== false) {
-                    echo '<figure><video loading="lazy"><source src="' . esc_url($imagem) . '" type="video/mp4"></video></figure>';
-                } else {
-                    echo '<figure><img src="' . esc_url($imagem) . '" alt="" /></figure>';
+                $link_do_post = $imagem['caption'];
+                if(!empty($link_do_post)) {
+                    $link_do_post = '<a href="' . esc_url($link_do_post) . '" target="_blank">confira o post</a>';
+                }
+                if (isset($imagem['url']) && strpos($imagem['url'], 'mp4') !== false) {
+                    echo
+                    '<figure>
+                        <video loading="lazy">
+                        <source src="' . esc_url($imagem['url']) . '" type="video/mp4"></video>
+                        '.$link_do_post.'
+                        <span>ver vídeo</span>
+                    </figure>';
+                } elseif (isset($imagem['url'])) {
+                    echo '<figure><img src="' . esc_url($imagem['url']) . '" alt="' . esc_attr($imagem['alt']) . '" />'.$link_do_post.'</figure>';
                 }
             }
             echo '</div>';

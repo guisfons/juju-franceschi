@@ -8,10 +8,19 @@ if (have_rows('publicidade')) :
         if ($imagens) {
             echo '<div class="publicidade__galeria">';
             foreach ($imagens as $imagem) {
-                if (strpos($imagem, 'mp4') !== false) {
-                    echo '<figure><video loading="lazy"><source src="' . esc_url($imagem) . '" type="video/mp4"></video></figure>';
-                } else {
-                    echo '<figure><img src="' . esc_url($imagem) . '" alt="" /></figure>';
+                $link_do_post = $imagem['caption'];
+                if(!empty($link_do_post)) {
+                    $link_do_post = '<a href="' . esc_url($link_do_post) . '" target="_blank">confira o post</a>';
+                }
+                if (isset($imagem['url']) && strpos($imagem['url'], 'mp4') !== false) {
+                    echo
+                    '<figure><video loading="lazy">
+                        <source src="' . esc_url($imagem['url']) . '" type="video/mp4"></video>
+                        '.$link_do_post.'
+                        <span>ver vídeo</span>
+                    </figure>';
+                } elseif (isset($imagem['url'])) {
+                    echo '<figure><img src="' . esc_url($imagem['url']) . '" alt="' . esc_attr($imagem['alt']) . '" />'.$link_do_post.'</figure>';
                 }
             }
             echo '</div>';

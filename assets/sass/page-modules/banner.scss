@@ -36,14 +36,14 @@
     }
 
     &__dinamic {
-        max-width: 117.4rem;
+        max-width: 83rem;
         width: 70%;
-        margin: 12.5rem auto 0;
+        margin: 12.5rem auto 0 10%;
 
         @include max (900) {
             height: initial;
             width: 90%;
-            margin-top: 3rem;
+            margin: 3rem auto;
             align-items: center;
             gap: 3rem;
         }
@@ -53,8 +53,46 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        align-items: center;
     }
 
+    &__dados {
+        max-width: 83rem;
+        width: 100%;
+        position: relative;
+        z-index: 5;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 6rem;
+
+        @include max (900) {
+            justify-content: center;
+        }
+
+        article {
+            max-width: 28.1rem;
+            width: fit-content;
+            
+            color: #fff;
+            font-size: 1.6rem;
+            line-height: 2.4rem;
+            text-transform: uppercase;
+            text-align: center;
+
+            span {
+                font-family: 'Avigea';
+                font-size: 4.8rem;
+                line-height: 6.5rem;
+
+                @include max (900) {
+                    font-size: 3.5rem;
+                    line-height: 4.5rem;
+                }
+            }
+        }
+    }
+    
     &__frase {
         font-size: 4.8rem;
         font-weight: 300;
@@ -99,7 +137,7 @@
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 2rem;
-        max-width: 36.6rem;
+        max-width: 46.5rem;
         width: 100%;
         z-index: 5;
 
